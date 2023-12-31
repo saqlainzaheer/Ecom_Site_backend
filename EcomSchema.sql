@@ -1,0 +1,32 @@
+CREATE DATABASE EcomProject;
+USE EcomProject;
+CREATE TABLE Users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+      verification_code VARCHAR(8),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE thirdpartyUsers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  provider VARCHAR(255) NOT NULL,
+  provider_id VARCHAR(255) NOT NULL,
+  name VARCHAR(255)
+);
+CREATE TABLE admins (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  color VARCHAR(100),
+  description TEXT,
+  image_urls TEXT
+);
