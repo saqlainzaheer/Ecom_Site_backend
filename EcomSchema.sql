@@ -22,11 +22,15 @@ CREATE TABLE admins (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE products (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  price DECIMAL(10, 2) NOT NULL,
-  category VARCHAR(50) NOT NULL,
-  color VARCHAR(100),
-  description TEXT,
-  image_urls TEXT
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    discountPercentage DECIMAL(5, 2),
+    discountedPrice DECIMAL(10, 2),
+    metaDescription TEXT,
+    imagePaths TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+SELECT * FROM products;
+DROP TABLE products;
