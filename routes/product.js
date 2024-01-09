@@ -67,8 +67,6 @@ productRouter.get("/products", (req, res) => {
 });
 // API endpoint to insert categories
 productRouter.post("/categories", (req, res) => {
-  
- 
 
   try {
 
