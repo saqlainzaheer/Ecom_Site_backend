@@ -67,12 +67,38 @@ productRouter.get("/products", (req, res) => {
 });
 // API endpoint to insert categories
 productRouter.post("/categories", (req, res) => {
-  const categories = req.body;
-  const productId= categories.productid;
-  const data=categories.category;
-  console.log(data,productId);
-  // const {productid}=req.body;
-  res.send(categories);
+  
+ 
 
+  try {
+
+    const categories = req.body;
+    const productId= categories.productid;
+    const data=categories.category;
+    
+    data.forEach((item) => {
+      const { colorName, color, small, medium, large } = item;
+
+      const sql = `
+        INSERT INTO catagory (product_id, colorname, color, size_small, size_medium, size_large)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+
+      const values = [productId, colorName, color, small, medium, large];
+
+      dbConnection.query(sql, values, (err, result) => {
+        if (err) {
+          console.error('Error inserting data:', err);
+        } else {
+          console.log('Data inserted successfully:', result);
+        }
+      });
+    });
+
+    res.status(201).json({ message: 'Category data inserted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 
 });
