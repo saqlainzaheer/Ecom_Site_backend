@@ -65,3 +65,54 @@ productRouter.get("/products", (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+// API endpoint to insert categories
+productRouter.post("/categories", (req, res) => {
+  const categories = req.body.categories;
+
+  if (!categories || !Array.isArray(categories) || categories.length === 0) {
+    return res.status(400).json({ error: "Invalid input data" });
+  }
+
+  // Create a promise to handle the asynchronous database operations
+  const insertCategoryPromises = categories.map((category) => {
+    return new Promise((resolve, reject) => {
+      const {
+        product_id,
+        colorname,
+        color,
+        size_small,
+        size_medium,
+        size_large,
+      } = category;
+
+      const sql =
+        "INSERT INTO category (product_id, colorname, color, size_small, size_medium, size_large) VALUES (?, ?, ?, ?, ?, ?)";
+      const values = [
+        product_id,
+        colorname,
+        color,
+        size_small,
+        size_medium,
+        size_large,
+      ];
+
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  });
+
+  // Execute all promises and send the response once all are resolved
+  Promise.all(insertCategoryPromises)
+    .then(() => {
+      res.status(201).json({ message: "Categories inserted successfully" });
+    })
+    .catch((error) => {
+      console.error("Error inserting categories: ", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
+});
